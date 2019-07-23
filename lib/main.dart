@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Emoji> listEyes = [];
   List<Emoji> listMouth = [];
   List<Emoji> listDetails = [];
+  int menu = 4; // 4 Main, 0 Base, 1 Eyes, 2 Mouth, 3 Details
 
   void initState() {
     super.initState();
@@ -74,15 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String svgDetail = ''' ''';
   final String svgFooter = '''</svg>''';
 
-  void _update() {
-    setState(() {
-        svgBase = '''<path id="svg_3" d="m23,23c6.211,0 13,4 13,9c0,4 -3,4 -3,4c-8,0 -1,-9 -10,-13z" fill="#5DADEC"/>''';
-    });
-  }
-
   Widget getSVG() {
     String svgBuild =
-        svgHeader + svgBase + svgEyes + svgMouth +  svgFooter;
+        svgHeader + svgBase + svgEyes + svgMouth + svgDetail + svgFooter;
     return SvgPicture.string(
       svgBuild,
       height: 150,
@@ -109,48 +104,251 @@ class _MyHomePageState extends State<MyHomePage> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width-10,
               height: 100,
-              child: GridView.count(
-                scrollDirection: Axis.horizontal,
-                crossAxisCount: 1,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                children: List.generate(4, (index) {
-                  return new GestureDetector(
-                    child: Container(
-                      decoration: new BoxDecoration(
-                          color: Colors.transparent,
-                          border: new Border.all(color: Colors.grey),
-                          borderRadius: new BorderRadius.all(Radius.circular(30.0)),
-                      ),
-                      child: Center(
-                          child: Column(
-                            children:
-                            getButton(index)
-                            ,
-                          )),
-                    ),
-                    onTap: () {
-
-                      if (index == 0) {
-                        _update();
-                      } else if (index == 1) {
-
-                      } else if (index == 2){
-
-                      } else if (index == 3) {
-
-                      }
-
-
-                    },
-                  );
-                }),
-
-              ),
-
+              child: getMenu(),
             )),]),
     );
   }
+
+  Widget getMenu() {
+    if (menu == 4) {
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(4, (index) {
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.transparent,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                    children:
+                    getButton(index)
+                    ,
+                  )),
+            ),
+            onTap: () {
+              setState(() {
+                menu = index;
+              });
+            },
+          );
+        }),
+
+      );
+    } else if (menu == 0) { // Base
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(listBase.length+1, (index) { // +1 pour bouton back
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.transparent,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                    children:
+                        index == 0 ? getReturn() :
+                    getEmoji(index-1) // -1 car bouton back
+                    ,
+                  )),
+            ),
+            onTap: () {
+              if (index == 0) {
+                setState(() {
+                menu = 4;
+                });
+              } else {
+                setState(() {
+                  svgBase = listBase[index-1].rawSVG;
+                });
+              }
+            },
+          );
+        }),
+      );
+    } else if (menu == 1) { // Eyes
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(listEyes.length+1, (index) {
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.transparent,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                    children:
+                    index == 0 ? getReturn() :
+                    getEmoji(index-1) // -1 car bouton back
+                    ,
+                  )),
+            ),
+            onTap: () {
+              if (index == 0) {
+                setState(() {
+                  menu = 4;
+                });
+              } else {
+              setState(() {
+                svgEyes = listEyes[index-1].rawSVG;
+              });
+              }
+            },
+          );
+        }),
+      );
+    } else if (menu == 2) { // Mouth
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(listMouth.length+1, (index) {
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.transparent,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                    children:
+                    index == 0 ? getReturn() :
+                    getEmoji(index-1) // -1 car bouton back
+                    ,
+                  )),
+            ),
+            onTap: () {
+              if (index == 0) {
+                setState(() {
+                  menu = 4;
+                });
+              } else {
+              setState(() {
+                svgMouth = listMouth[index-1].rawSVG;
+              });
+              }
+            },
+          );
+        }),
+      );
+    } else if (menu == 3) { // Details
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(listDetails.length+1, (index) {
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.transparent,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                    children:
+                    index == 0 ? getReturn() :
+                    getEmoji(index-1) // -1 car bouton back
+                    ,
+                  )),
+            ),
+            onTap: () {
+              if (index == 0) {
+                setState(() {
+                  menu = 4;
+                });
+              } else {
+                setState(() {
+                  svgDetail = listDetails[index - 1].rawSVG;
+                });
+              }
+            },
+          );
+        }),
+      );
+    }
+
+
+
+  }
+
+  List<Widget> getReturn() {
+    List listings = new List<Widget>();
+      listings.add(Spacer());
+      listings.add(Icon(Icons.arrow_back,size: 50));
+      listings.add(Text('Back', style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    return listings;
+  }
+
+
+  List<Widget> getEmoji(int index) {
+    List listings = new List<Widget>();
+
+    if (menu == 0) {
+      String svgBuild = svgHeader + listBase[index].rawSVG + svgFooter;
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 40,
+        width: 40,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Spacer());
+    } else if (menu == 1) {
+      String svgBuild = svgHeader + listEyes[index].rawSVG + svgFooter;
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 40,
+        width: 40,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Spacer());
+    } else if (menu == 2) {
+      String svgBuild = svgHeader + listMouth[index].rawSVG + svgFooter;
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 40,
+        width: 40,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Spacer());
+    } else if (menu == 3) {
+      String svgBuild = svgHeader + listDetails[index].rawSVG + svgFooter;
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 40,
+        width: 40,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Spacer());
+    }
+    return listings;
+  }
+
+
+
   List<Widget> getButton(int index) {
     List listings = new List<Widget>();
 
