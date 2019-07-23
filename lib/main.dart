@@ -71,26 +71,55 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<bool> _onWillPop() async {
+    if (menu != 4) {
+      setState(() {
+        menu = 4;
+      });
+      return false;
+    } else {
+      return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+          title: new Text('Emoji not saved'),
+          content: new Text('Do you want to exit the app ?'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: new Text('Yes'),
+            ),
+          ],
+        ),
+      ) ?? false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Stack(children: <Widget>[
-        Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[getSVG()])),
-        Align(
-            alignment: Alignment(1, 0.95),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width - 10,
-              height: 100,
-              child: getMenu(),
-            )),
-      ]),
-    );
+    return new WillPopScope(
+        onWillPop: _onWillPop,
+        child: new Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+          ),
+          body: Stack(children: <Widget>[
+            Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[getSVG()])),
+            Align(
+                alignment: Alignment(1, 0.95),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width - 10,
+                  height: 100,
+                  child: getMenu(),
+                )),
+          ]),
+        ));
   }
 
   Widget getMenu() {
@@ -327,7 +356,8 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       listings.add(Spacer());
       listings.add(svg);
-      listings.add(Text(listDetails[index].name, style: TextStyle(fontSize: 15)));
+      listings
+          .add(Text(listDetails[index].name, style: TextStyle(fontSize: 15)));
       listings.add(Spacer());
     }
     return listings;
