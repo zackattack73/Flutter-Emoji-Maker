@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return new GestureDetector(
             child: Container(
               decoration: new BoxDecoration(
-                color: Colors.transparent,
+                color: Colors.black12,
                 border: new Border.all(color: Colors.grey),
                 borderRadius: new BorderRadius.all(Radius.circular(30.0)),
               ),
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return new GestureDetector(
             child: Container(
               decoration: new BoxDecoration(
-                color: Colors.transparent,
+                color: Colors.black12,
                 border: new Border.all(color: Colors.grey),
                 borderRadius: new BorderRadius.all(Radius.circular(30.0)),
               ),
@@ -170,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return new GestureDetector(
             child: Container(
               decoration: new BoxDecoration(
-                color: Colors.transparent,
+                color: Colors.black12,
                 border: new Border.all(color: Colors.grey),
                 borderRadius: new BorderRadius.all(Radius.circular(30.0)),
               ),
@@ -207,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return new GestureDetector(
             child: Container(
               decoration: new BoxDecoration(
-                color: Colors.transparent,
+                color: Colors.black12,
                 border: new Border.all(color: Colors.grey),
                 borderRadius: new BorderRadius.all(Radius.circular(30.0)),
               ),
@@ -244,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return new GestureDetector(
             child: Container(
               decoration: new BoxDecoration(
-                color: Colors.transparent,
+                color: Colors.black12,
                 border: new Border.all(color: Colors.grey),
                 borderRadius: new BorderRadius.all(Radius.circular(30.0)),
               ),
@@ -294,6 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       listings.add(Spacer());
       listings.add(svg);
+      listings.add(Text(listBase[index].name, style: TextStyle(fontSize: 15)));
       listings.add(Spacer());
     } else if (menu == 1) {
       String svgBuild = svgHeader + listEyes[index].rawSVG + svgFooter;
@@ -304,6 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       listings.add(Spacer());
       listings.add(svg);
+      listings.add(Text(listEyes[index].name, style: TextStyle(fontSize: 15)));
       listings.add(Spacer());
     } else if (menu == 2) {
       String svgBuild = svgHeader + listMouth[index].rawSVG + svgFooter;
@@ -314,6 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       listings.add(Spacer());
       listings.add(svg);
+      listings.add(Text(listMouth[index].name, style: TextStyle(fontSize: 15)));
       listings.add(Spacer());
     } else if (menu == 3) {
       String svgBuild = svgHeader + listDetails[index].rawSVG + svgFooter;
@@ -324,6 +327,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       listings.add(Spacer());
       listings.add(svg);
+      listings.add(Text(listDetails[index].name, style: TextStyle(fontSize: 15)));
       listings.add(Spacer());
     }
     return listings;
