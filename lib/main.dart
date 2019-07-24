@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:emoji_maker/emoji.dart';
 import 'package:emoji_maker/emojiDB.dart';
+import 'dart:math';
+import 'dart:ui';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Emoji> listEyes = [];
   List<Emoji> listMouth = [];
   List<Emoji> listDetails = [];
-  int menu = 4; // 4 Main, 0 Base, 1 Eyes, 2 Mouth, 3 Details
+  int menu =
+      4; // 4 Main, 0 Base, 1 Eyes, 2 Mouth, 3 Details, 5 Move choose, 6 Move
+  int move = 0; // 0 Move Base, 1 Move Eyes, 2 Move Mouth, 3 Move Details
 
   void initState() {
     super.initState();
@@ -58,12 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
   String svgBase = ''' ''';
   String svgEyes = ''' ''';
   String svgMouth = ''' ''';
-  String svgDetail = ''' ''';
+  String svgDetails = ''' ''';
   final String svgFooter = '''</svg>''';
 
   Widget getSVG() {
     String svgBuild =
-        svgHeader + svgBase + svgEyes + svgMouth + svgDetail + svgFooter;
+        svgHeader + svgBase + svgEyes + svgMouth + svgDetails + svgFooter;
     return SvgPicture.string(
       svgBuild,
       height: 150,
@@ -79,22 +83,23 @@ class _MyHomePageState extends State<MyHomePage> {
       return false;
     } else {
       return showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-          title: new Text('Emoji not saved'),
-          content: new Text('Do you want to exit the app ?'),
-          actions: <Widget>[
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Emoji not saved'),
+              content: new Text('Do you want to exit the app ?'),
+              actions: <Widget>[
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('No'),
+                ),
+                new FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: new Text('Yes'),
+                ),
+              ],
             ),
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: new Text('Yes'),
-            ),
-          ],
-        ),
-      ) ?? false;
+          ) ??
+          false;
     }
   }
 
@@ -107,6 +112,72 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(widget.title),
           ),
           body: Stack(children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: new GestureDetector(
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  margin: EdgeInsets.all(10.0),
+                  decoration: new BoxDecoration(
+                    color: Colors.green,
+                    border: new Border.all(color: Colors.grey),
+                    borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  child: Center(
+                      child: Column(
+                    children: getSave(),
+                  )),
+                ),
+                onTap: () {
+                  _saveEmoji();
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: new GestureDetector(
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  margin: EdgeInsets.all(10.0),
+                  decoration: new BoxDecoration(
+                    color: Colors.red,
+                    border: new Border.all(color: Colors.grey),
+                    borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  child: Center(
+                      child: Column(
+                    children: getClear(),
+                  )),
+                ),
+                onTap: () {
+                  _clearEmoji();
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: new GestureDetector(
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  margin: EdgeInsets.all(10.0),
+                  decoration: new BoxDecoration(
+                    color: Colors.black12,
+                    border: new Border.all(color: Colors.grey),
+                    borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  child: Center(
+                      child: Column(
+                    children: getRandom(),
+                  )),
+                ),
+                onTap: () {
+                  _randomEmoji();
+                },
+              ),
+            ),
             Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -122,6 +193,34 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
+  void _saveEmoji() async {
+    //TODO
+    /*String svgBuild =
+        svgHeader + svgBase + svgEyes + svgMouth + svgDetails + svgFooter;
+    final DrawableRoot svgRoot = await svg.fromSvgString(svgBuild, svgBuild);
+    final Picture picture = svgRoot.toPicture();
+    Future<Image> saved =  picture.toImage(50, 50);*/
+  }
+
+  void _clearEmoji() {
+    setState(() {
+      svgBase = ''' ''';
+      svgEyes = ''' ''';
+      svgMouth = ''' ''';
+      svgDetails = ''' ''';
+    });
+  }
+
+  void _randomEmoji() {
+    var rng = new Random();
+    setState(() {
+      svgBase = listBase[rng.nextInt(listBase.length)].rawSVG;
+      svgEyes = listEyes[rng.nextInt(listEyes.length)].rawSVG;
+      svgMouth = listMouth[rng.nextInt(listMouth.length)].rawSVG;
+      svgDetails = listDetails[rng.nextInt(listDetails.length)].rawSVG;
+    });
+  }
+
   Widget getMenu() {
     if (menu == 4) {
       return GridView.count(
@@ -129,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisCount: 1,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
-        children: List.generate(4, (index) {
+        children: List.generate(5, (index) {
           return new GestureDetector(
             child: Container(
               decoration: new BoxDecoration(
@@ -144,7 +243,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             onTap: () {
               setState(() {
-                menu = index;
+                if(index!=4) {
+                  menu = index;
+                } else {
+                  menu = 5;
+                }
               });
             },
           );
@@ -292,14 +395,114 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               } else {
                 setState(() {
-                  svgDetail = listDetails[index - 1].rawSVG;
+                  svgDetails = listDetails[index - 1].rawSVG;
                 });
               }
             },
           );
         }),
       );
+    } else if (menu == 5) {
+      // Move choose
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(5, (index) {
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.black12,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                      children: index == 0
+                          ? getReturn()
+                          : getMoveChoose(index - 1) // -1 car bouton back
+                      )),
+            ),
+            onTap: () {
+              if (index == 0) {
+                setState(() {
+                  menu = 4;
+                });
+              } else {
+                setState(() {
+                  menu = 6;
+                  move = index;
+                });
+              }
+            },
+          );
+        }),
+      );
+    } else if (menu == 6) {
+      // Move details
+      return GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        children: List.generate(5, (index) {
+          return new GestureDetector(
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.black12,
+                border: new Border.all(color: Colors.grey),
+                borderRadius: new BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: Center(
+                  child: Column(
+                      children: index == 0
+                          ? getReturn()
+                          : getMove(index - 1) // -1 car bouton back
+                      )),
+            ),
+            onTap: () {
+              if (index == 0) {
+                setState(() {
+                  menu = 5;
+                });
+              } else {
+                print(
+                    "_____________________________________________________Pressed : " +
+                        index.toString() +" AND ITEM : " + move.toString());
+              }
+            },
+          );
+        }),
+      );
     }
+  }
+
+  List<Widget> getSave() {
+    List listings = new List<Widget>();
+    listings.add(Spacer());
+    listings.add(Icon(Icons.save_alt, size: 50));
+    listings.add(Text('Save', style: TextStyle(fontSize: 15)));
+    listings.add(Spacer());
+    return listings;
+  }
+
+  List<Widget> getClear() {
+    List listings = new List<Widget>();
+    listings.add(Spacer());
+    listings.add(Icon(Icons.clear, size: 50));
+    listings.add(Text('Clear', style: TextStyle(fontSize: 15)));
+    listings.add(Spacer());
+    return listings;
+  }
+
+  List<Widget> getRandom() {
+    List listings = new List<Widget>();
+    listings.add(Spacer());
+    listings.add(Icon(Icons.cached, size: 50));
+    listings.add(Text('Random', style: TextStyle(fontSize: 15)));
+    listings.add(Spacer());
+    return listings;
   }
 
   List<Widget> getReturn() {
@@ -318,8 +521,8 @@ class _MyHomePageState extends State<MyHomePage> {
       String svgBuild = svgHeader + listBase[index].rawSVG + svgFooter;
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -329,8 +532,8 @@ class _MyHomePageState extends State<MyHomePage> {
       String svgBuild = svgHeader + listEyes[index].rawSVG + svgFooter;
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -340,8 +543,8 @@ class _MyHomePageState extends State<MyHomePage> {
       String svgBuild = svgHeader + listMouth[index].rawSVG + svgFooter;
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -351,8 +554,8 @@ class _MyHomePageState extends State<MyHomePage> {
       String svgBuild = svgHeader + listDetails[index].rawSVG + svgFooter;
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -376,8 +579,8 @@ class _MyHomePageState extends State<MyHomePage> {
 </svg>''';
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -393,8 +596,8 @@ class _MyHomePageState extends State<MyHomePage> {
 </svg>''';
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -410,8 +613,8 @@ class _MyHomePageState extends State<MyHomePage> {
 </svg>''';
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
@@ -427,12 +630,121 @@ class _MyHomePageState extends State<MyHomePage> {
 </svg>''';
       SvgPicture svg = SvgPicture.string(
         svgBuild,
-        height: 40,
-        width: 40,
+        height: 50,
+        width: 50,
       );
       listings.add(Spacer());
       listings.add(svg);
       listings.add(Text('Details', style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 4) {
+      listings.add(Spacer());
+      listings.add(Transform.rotate(
+          angle: -pi / 4, child: Icon(Icons.zoom_out_map, size: 50)));
+      listings.add(Text('Move', style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    }
+
+    return listings;
+  }
+
+  List<Widget> getMove(int index) {
+    List listings = new List<Widget>();
+
+    if (index == 0) {
+      listings.add(Spacer());
+      listings.add(Icon(Icons.keyboard_arrow_left, size: 50));
+      listings.add(Text("Left", style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 1) {
+      listings.add(Spacer());
+      listings.add(Icon(Icons.keyboard_arrow_right, size: 50));
+      listings.add(Text("Right", style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 2) {
+      listings.add(Spacer());
+      listings.add(Icon(Icons.keyboard_arrow_up, size: 50));
+      listings.add(Text("Up", style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 3) {
+      listings.add(Spacer());
+      listings.add(Icon(Icons.keyboard_arrow_down, size: 50));
+      listings.add(Text("Down", style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    }
+    return listings;
+  }
+
+  List<Widget> getMoveChoose(int index) {
+    List listings = new List<Widget>();
+
+    if (index == 0) {
+      String svgBuild =
+          '''<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g class="layer">
+  <title>Layer 1</title>
+  <path id="svg_1" d="m36,18c0,9.941 -8.059,18 -18,18s-18,-8.059 -18,-18s8.059,-18 18,-18s18,8.059 18,18" fill="#FFCC4D"/>
+ </g>
+</svg>''';
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 50,
+        width: 50,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Text('Move Base', style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 1) {
+      String svgBuild =
+          '''<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g class="layer">
+  <title>Layer 1</title>
+  <path fill="#DD2E44" d="m16.65,3.281c-0.859,-2.431 -3.524,-3.707 -5.956,-2.85c-1.476,0.52 -2.521,1.711 -2.928,3.104c-1.191,-0.829 -2.751,-1.1 -4.225,-0.58c-2.43,0.858 -3.708,3.525 -2.849,5.956c0.122,0.344 0.284,0.663 0.472,0.958c1.951,3.582 7.588,6.1 11.001,6.131c2.637,-2.167 5.446,-7.665 4.718,-11.677c-0.038,-0.348 -0.113,-0.698 -0.233,-1.042zm2.7,0c0.859,-2.431 3.525,-3.707 5.956,-2.85c1.476,0.52 2.521,1.711 2.929,3.104c1.191,-0.829 2.751,-1.1 4.225,-0.58c2.43,0.858 3.707,3.525 2.85,5.956c-0.123,0.344 -0.284,0.663 -0.473,0.958c-1.951,3.582 -7.588,6.1 -11.002,6.131c-2.637,-2.167 -5.445,-7.665 -4.717,-11.677c0.037,-0.348 0.112,-0.698 0.232,-1.042z"/>
+ </g>
+</svg>''';
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 50,
+        width: 50,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Text('Move Eyes', style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 2) {
+      String svgBuild =
+          '''<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g class="layer">
+  <title>Layer 1</title>
+  <path fill="#664500" d="m18,21.849c-2.966,0 -4.935,-0.346 -7.369,-0.819c-0.557,-0.106 -1.638,0 -1.638,1.638c0,3.275 3.763,7.369 9.007,7.369s9.007,-4.094 9.007,-7.369c0,-1.638 -1.082,-1.745 -1.638,-1.638c-2.434,0.473 -4.402,0.819 -7.369,0.819"/>
+ </g>
+</svg>''';
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 50,
+        width: 50,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Text('Move Mouth', style: TextStyle(fontSize: 15)));
+      listings.add(Spacer());
+    } else if (index == 3) {
+      String svgBuild =
+          '''<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g class="layer">
+  <title>Layer 1</title>
+  <path fill="#5DADEC" d="m23,23c6.211,0 13,4 13,9c0,4 -3,4 -3,4c-8,0 -1,-9 -10,-13z"/>
+ </g>
+</svg>''';
+      SvgPicture svg = SvgPicture.string(
+        svgBuild,
+        height: 50,
+        width: 50,
+      );
+      listings.add(Spacer());
+      listings.add(svg);
+      listings.add(Text('Move Detail', style: TextStyle(fontSize: 15)));
       listings.add(Spacer());
     }
 
