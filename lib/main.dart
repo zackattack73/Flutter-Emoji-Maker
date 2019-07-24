@@ -194,12 +194,745 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _saveEmoji() async {
+    print(svgEyes);
     //TODO
     /*String svgBuild =
         svgHeader + svgBase + svgEyes + svgMouth + svgDetails + svgFooter;
     final DrawableRoot svgRoot = await svg.fromSvgString(svgBuild, svgBuild);
     final Picture picture = svgRoot.toPicture();
     Future<Image> saved =  picture.toImage(50, 50);*/
+  }
+
+  void _moveEmoji(int index) {
+    print(index);
+    if (index == 0) { // Left
+      _moveLeft();
+    } else if (index == 1) { // Right
+      _moveRight();
+    } else if (index == 2) { // Up
+      _moveUp();
+    } else if (index == 3) { // Down
+      _moveDown();
+    }
+  }
+
+  void _moveLeft() {
+
+    if (move == 0) { // Base
+      //TODO
+    } else if (move == 1) { // Eyes
+
+      List<String> tempEyes = svgEyes.split(">");
+      print(tempEyes.length);
+      if (tempEyes.length-1 == 1) { // 1 seul objet a bouger
+        if (tempEyes[0].contains("path")) {
+          List<String> tempCoord = tempEyes[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[0])-1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+            x++;
+            }
+          }
+          setState(() {
+            svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+            print(svgEyes);
+          });
+        } else if (tempEyes[0].contains("circle") || tempEyes[0].contains("ellipse")){
+          List<String> tempCoord = tempEyes[0].split('''cx="''');
+          double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+          List<String> tempo = tempCoord[1].split('''"''');
+          String tempi='''''';
+          int w = 1;
+          while (w<tempo.length) {
+            tempi = tempi +'''"''' + tempo[w];
+            w++;
+          }
+          setState(() {
+            svgEyes = tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+            print(svgEyes);
+          });
+        }
+      } else {
+        int y =0;
+        String svgBuild='''''';
+        while (y<tempEyes.length-1) {
+          if (tempEyes[y].contains("path")) {
+            List<String> tempCoord = tempEyes[y].split("m");
+            // tempCoord[0] + m = partie gauche
+
+            List<String> tempCoord2 = tempCoord[1].split("c");
+            // c + tempCoord2[1] + > = partie droite
+            List<String> tempCoord3 = tempCoord2[0].split(",");
+            double newCoord = double.parse(tempCoord3[0])-1.5;
+            // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+            int i = 1;
+            String coord2 ='''''';
+            while (i < tempCoord2.length) {
+              if (i != tempCoord2.length-1) {
+                coord2 = coord2 + tempCoord2[i] +'''c''';
+              } else {
+                coord2 = coord2 + tempCoord2[i];
+              }
+              i++;
+            }
+            if (tempCoord.length>2) {
+              int x = 2;
+              while (x < tempCoord.length) {
+                coord2 = coord2 +'''m''' +tempCoord[x];
+                x++;
+              }
+            }
+            setState(() {
+              svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+              print(svgEyes);
+            });
+          } else if (tempEyes[y].contains("circle")||tempEyes[y].contains("ellipse")){
+            List<String> tempCoord = tempEyes[y].split('''cx="''');
+            double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+              List<String> tempo = tempCoord[1].split('''"''');
+              String tempi='''''';
+              int w = 1;
+              while (w<tempo.length) {
+                tempi = tempi +'''"''' + tempo[w];
+                w++;
+              }
+            svgBuild = svgBuild+tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+          }
+          y++;
+        }
+        setState(() {
+          svgEyes = svgBuild;
+          print(svgEyes);
+        });
+      }
+
+
+    } else if (move == 2) { // Mouth
+      List<String> tempMouth = svgMouth.split(">");
+      print(tempMouth.length);
+      if (tempMouth.length-1 == 1) { // 1 seul objet a bouger
+        if (tempMouth[0].contains("path")) {
+          List<String> tempCoord = tempMouth[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[0])-1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgMouth = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+            print(svgMouth);
+          });
+        } else if (tempMouth[0].contains("circle") || tempMouth[0].contains("ellipse")){
+          List<String> tempCoord = tempMouth[0].split('''cx="''');
+          double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+          List<String> tempo = tempCoord[1].split('''"''');
+          String tempi='''''';
+          int w = 1;
+          while (w<tempo.length) {
+            tempi = tempi +'''"''' + tempo[w];
+            w++;
+          }
+          setState(() {
+            svgEyes = tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+            print(svgEyes);
+          });
+        }
+      } else {
+        int y =0;
+        String svgBuild='''''';
+        while (y<tempMouth.length-1) {
+          if (tempMouth[y].contains("path")) {
+            List<String> tempCoord = tempMouth[y].split("m");
+            // tempCoord[0] + m = partie gauche
+
+            List<String> tempCoord2 = tempCoord[1].split("c");
+            // c + tempCoord2[1] + > = partie droite
+            List<String> tempCoord3 = tempCoord2[0].split(",");
+            double newCoord = double.parse(tempCoord3[0])-1.5;
+            // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+            int i = 1;
+            String coord2 ='''''';
+            while (i < tempCoord2.length) {
+              if (i != tempCoord2.length-1) {
+                coord2 = coord2 + tempCoord2[i] +'''c''';
+              } else {
+                coord2 = coord2 + tempCoord2[i];
+              }
+              i++;
+            }
+            if (tempCoord.length>2) {
+              int x = 2;
+              while (x < tempCoord.length) {
+                coord2 = coord2 +'''m''' +tempCoord[x];
+                x++;
+              }
+            }
+            setState(() {
+              svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+              print(svgEyes);
+            });
+          } else if (tempMouth[y].contains("circle")||tempMouth[y].contains("ellipse")){
+            List<String> tempCoord = tempMouth[y].split('''cx="''');
+            double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+            List<String> tempo = tempCoord[1].split('''"''');
+            String tempi='''''';
+            int w = 1;
+            while (w<tempo.length) {
+              tempi = tempi +'''"''' + tempo[w];
+              w++;
+            }
+            svgBuild = svgBuild+tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+          }
+          y++;
+        }
+        setState(() {
+          svgEyes = svgBuild;
+          print(svgEyes);
+        });
+      }
+    } else if (move == 3) { // Details
+
+    }
+
+  }
+  void _moveRight() {
+
+    if (move == 0) { // Base
+
+    } else if (move == 1) { // Eyes
+      List<String> tempEyes = svgEyes.split(">");
+      print(tempEyes.length);
+      if (tempEyes.length-1 == 1) { // 1 seul objet a bouger
+        if (tempEyes[0].contains("path")) {
+          List<String> tempCoord = tempEyes[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[0])+1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+            print(svgEyes);
+          });
+        } else if (tempEyes[0].contains("circle") || tempEyes[0].contains("ellipse")){
+          List<String> tempCoord = tempEyes[0].split('''cx="''');
+          double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))+1;
+          List<String> tempo = tempCoord[1].split('''"''');
+          String tempi='''''';
+          int w = 1;
+          while (w<tempo.length) {
+            tempi = tempi +'''"''' + tempo[w];
+            w++;
+          }
+          setState(() {
+            svgEyes = tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+            print(svgEyes);
+          });
+        }
+      } else {
+        int y =0;
+        String svgBuild='''''';
+        while (y<tempEyes.length-1) {
+          if (tempEyes[y].contains("path")) {
+            List<String> tempCoord = tempEyes[y].split("m");
+            // tempCoord[0] + m = partie gauche
+
+            List<String> tempCoord2 = tempCoord[1].split("c");
+            // c + tempCoord2[1] + > = partie droite
+            List<String> tempCoord3 = tempCoord2[0].split(",");
+            double newCoord = double.parse(tempCoord3[0])-1.5;
+            // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+            int i = 1;
+            String coord2 ='''''';
+            while (i < tempCoord2.length) {
+              if (i != tempCoord2.length-1) {
+                coord2 = coord2 + tempCoord2[i] +'''c''';
+              } else {
+                coord2 = coord2 + tempCoord2[i];
+              }
+              i++;
+            }
+            if (tempCoord.length>2) {
+              int x = 2;
+              while (x < tempCoord.length) {
+                coord2 = coord2 +'''m''' +tempCoord[x];
+                x++;
+              }
+            }
+            setState(() {
+              svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+              print(svgEyes);
+            });
+          } else if (tempEyes[y].contains("circle")||tempEyes[y].contains("ellipse")){
+            List<String> tempCoord = tempEyes[y].split('''cx="''');
+            double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))+1;
+            List<String> tempo = tempCoord[1].split('''"''');
+            String tempi='''''';
+            int w = 1;
+            while (w<tempo.length) {
+              tempi = tempi +'''"''' + tempo[w];
+              w++;
+            }
+            svgBuild = svgBuild+tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+          }
+          y++;
+        }
+        setState(() {
+          svgEyes = svgBuild;
+          print(svgEyes);
+        });
+      }
+    } else if (move == 2) { // Mouth
+      List<String> tempMouth = svgMouth.split(">");
+      print(tempMouth.length);
+      if (tempMouth.length-1 == 1) { // 1 seul objet a bouger
+        if (tempMouth[0].contains("path")) {
+          List<String> tempCoord = tempMouth[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[0])+1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgMouth = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+            print(svgMouth);
+          });
+        } else if (tempMouth[0].contains("circle") || tempMouth[0].contains("ellipse")){
+          List<String> tempCoord = tempMouth[0].split('''cx="''');
+          double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+          List<String> tempo = tempCoord[1].split('''"''');
+          String tempi='''''';
+          int w = 1;
+          while (w<tempo.length) {
+            tempi = tempi +'''"''' + tempo[w];
+            w++;
+          }
+          setState(() {
+            svgEyes = tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+            print(svgEyes);
+          });
+        }
+      } else {
+        int y =0;
+        String svgBuild='''''';
+        while (y<tempMouth.length-1) {
+          if (tempMouth[y].contains("path")) {
+            List<String> tempCoord = tempMouth[y].split("m");
+            // tempCoord[0] + m = partie gauche
+
+            List<String> tempCoord2 = tempCoord[1].split("c");
+            // c + tempCoord2[1] + > = partie droite
+            List<String> tempCoord3 = tempCoord2[0].split(",");
+            double newCoord = double.parse(tempCoord3[0])-1.5;
+            // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+            int i = 1;
+            String coord2 ='''''';
+            while (i < tempCoord2.length) {
+              if (i != tempCoord2.length-1) {
+                coord2 = coord2 + tempCoord2[i] +'''c''';
+              } else {
+                coord2 = coord2 + tempCoord2[i];
+              }
+              i++;
+            }
+            if (tempCoord.length>2) {
+              int x = 2;
+              while (x < tempCoord.length) {
+                coord2 = coord2 +'''m''' +tempCoord[x];
+                x++;
+              }
+            }
+            setState(() {
+              svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+              print(svgEyes);
+            });
+          } else if (tempMouth[y].contains("circle")||tempMouth[y].contains("ellipse")){
+            List<String> tempCoord = tempMouth[y].split('''cx="''');
+            double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+            List<String> tempo = tempCoord[1].split('''"''');
+            String tempi='''''';
+            int w = 1;
+            while (w<tempo.length) {
+              tempi = tempi +'''"''' + tempo[w];
+              w++;
+            }
+            svgBuild = svgBuild+tempCoord[0]+'''cx="'''+newCoord.toString()+tempi+'''>''';
+          }
+          y++;
+        }
+        setState(() {
+          svgEyes = svgBuild;
+          print(svgEyes);
+        });
+      }
+    } else if (move == 3) { // Details
+
+    }
+  }
+  void _moveUp() {
+
+    if (move == 0) { // Base
+
+    } else if (move == 1) { // Eyes
+      List<String> tempEyes = svgEyes.split(">");
+      print(tempEyes.length);
+      if (tempEyes.length-1 == 1) { // 1 seul objet a bouger
+        if (tempEyes[0].contains("path")) {
+          List<String> tempCoord = tempEyes[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[1])-1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgEyes = tempCoord[0] + '''m''' + tempCoord3[0] +''','''+ newCoord.toString()+'''c'''+coord2+'''>''';
+          });
+        } else if (tempEyes[0].contains("circle") || tempEyes[0].contains("ellipse")){
+          List<String> tempCoord = tempEyes[0].split('''cy="''');
+          double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+          List<String> tempo = tempCoord[1].split('''"''');
+          String tempi='''''';
+          int w = 1;
+          while (w<tempo.length) {
+            tempi = tempi +'''"''' + tempo[w];
+            w++;
+          }
+          setState(() {
+            svgEyes = tempCoord[0]+'''cy="'''+newCoord.toString()+tempi+'''>''';
+            print(svgEyes);
+          });
+        }
+      } else {
+        int y =0;
+        String svgBuild='''''';
+        while (y<tempEyes.length-1) {
+          if (tempEyes[y].contains("path")) {
+            List<String> tempCoord = tempEyes[y].split("m");
+            // tempCoord[0] + m = partie gauche
+
+            List<String> tempCoord2 = tempCoord[1].split("c");
+            // c + tempCoord2[1] + > = partie droite
+            List<String> tempCoord3 = tempCoord2[0].split(",");
+            double newCoord = double.parse(tempCoord3[0])-1.5;
+            // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+            int i = 1;
+            String coord2 ='''''';
+            while (i < tempCoord2.length) {
+              if (i != tempCoord2.length-1) {
+                coord2 = coord2 + tempCoord2[i] +'''c''';
+              } else {
+                coord2 = coord2 + tempCoord2[i];
+              }
+              i++;
+            }
+            if (tempCoord.length>2) {
+              int x = 2;
+              while (x < tempCoord.length) {
+                coord2 = coord2 +'''m''' +tempCoord[x];
+                x++;
+              }
+            }
+            setState(() {
+              svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+              print(svgEyes);
+            });
+          } else if (tempEyes[y].contains("circle")||tempEyes[y].contains("ellipse")){
+            List<String> tempCoord = tempEyes[y].split('''cy="''');
+            double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))-1;
+            List<String> tempo = tempCoord[1].split('''"''');
+            String tempi='''''';
+            int w = 1;
+            while (w<tempo.length) {
+              tempi = tempi +'''"''' + tempo[w];
+              w++;
+            }
+            svgBuild = svgBuild+tempCoord[0]+'''cy="'''+newCoord.toString()+tempi+'''>''';
+          }
+          y++;
+        }
+        setState(() {
+          svgEyes = svgBuild;
+          print(svgEyes);
+        });
+      }
+    } else if (move == 2) { // Mouth
+      List<String> tempMouth = svgMouth.split(">");
+      print(tempMouth.length);
+      if (tempMouth.length-1 == 1) { // 1 seul objet a bouger
+        if (tempMouth[0].contains("path")) {
+          List<String> tempCoord = tempMouth[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[1])-1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgMouth = tempCoord[0] + '''m''' + tempCoord3[0] +''','''+ newCoord.toString()+'''c'''+coord2+'''>''';
+            print(svgMouth);
+          });
+        }
+      }
+    } else if (move == 3) { // Details
+
+    }
+  }
+  void _moveDown() {
+
+    if (move == 0) { // Base
+
+    } else if (move == 1) { // Eyes
+      List<String> tempEyes = svgEyes.split(">");
+      print(tempEyes.length);
+      if (tempEyes.length-1 == 1) { // 1 seul objet a bouger
+        if (tempEyes[0].contains("path")) {
+          List<String> tempCoord = tempEyes[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[1])+1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgEyes = tempCoord[0] + '''m''' + tempCoord3[0] +''','''+ newCoord.toString()+'''c'''+coord2+'''>''';
+          });
+        } else if (tempEyes[0].contains("circle") || tempEyes[0].contains("ellipse")){
+          List<String> tempCoord = tempEyes[0].split('''cy="''');
+          double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))+1;
+          List<String> tempo = tempCoord[1].split('''"''');
+          String tempi='''''';
+          int w = 1;
+          while (w<tempo.length) {
+            tempi = tempi +'''"''' + tempo[w];
+            w++;
+          }
+          setState(() {
+            svgEyes = tempCoord[0]+'''cy="'''+newCoord.toString()+tempi+'''>''';
+            print(svgEyes);
+          });
+        }
+      } else {
+        int y =0;
+        String svgBuild='''''';
+        while (y<tempEyes.length-1) {
+          if (tempEyes[y].contains("path")) {
+            List<String> tempCoord = tempEyes[y].split("m");
+            // tempCoord[0] + m = partie gauche
+
+            List<String> tempCoord2 = tempCoord[1].split("c");
+            // c + tempCoord2[1] + > = partie droite
+            List<String> tempCoord3 = tempCoord2[0].split(",");
+            double newCoord = double.parse(tempCoord3[0])-1.5;
+            // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+            int i = 1;
+            String coord2 ='''''';
+            while (i < tempCoord2.length) {
+              if (i != tempCoord2.length-1) {
+                coord2 = coord2 + tempCoord2[i] +'''c''';
+              } else {
+                coord2 = coord2 + tempCoord2[i];
+              }
+              i++;
+            }
+            if (tempCoord.length>2) {
+              int x = 2;
+              while (x < tempCoord.length) {
+                coord2 = coord2 +'''m''' +tempCoord[x];
+                x++;
+              }
+            }
+            setState(() {
+              svgEyes = tempCoord[0] + '''m''' + newCoord.toString() +''','''+ tempCoord3[1]+'''c'''+coord2+'''>''';
+              print(svgEyes);
+            });
+          } else if (tempEyes[y].contains("circle")||tempEyes[y].contains("ellipse")){
+            List<String> tempCoord = tempEyes[y].split('''cy="''');
+            double newCoord = double.parse((tempCoord[1][0]+tempCoord[1][1]+tempCoord[1][2]).replaceAll('''"''', ''''''))+1;
+            List<String> tempo = tempCoord[1].split('''"''');
+            String tempi='''''';
+            int w = 1;
+            while (w<tempo.length) {
+              tempi = tempi +'''"''' + tempo[w];
+              w++;
+            }
+            svgBuild = svgBuild+tempCoord[0]+'''cy="'''+newCoord.toString()+tempi+'''>''';
+          }
+          y++;
+        }
+        setState(() {
+          svgEyes = svgBuild;
+          print(svgEyes);
+        });
+      }
+    } else if (move == 2) { // Mouth
+      List<String> tempMouth = svgMouth.split(">");
+      print(tempMouth.length);
+      if (tempMouth.length-1 == 1) { // 1 seul objet a bouger
+        if (tempMouth[0].contains("path")) {
+          List<String> tempCoord = tempMouth[0].split("m");
+          // tempCoord[0] + m = partie gauche
+
+          List<String> tempCoord2 = tempCoord[1].split("c");
+          // c + tempCoord2[1] + > = partie droite
+          List<String> tempCoord3 = tempCoord2[0].split(",");
+          double newCoord = double.parse(tempCoord3[1])+1.5;
+          // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
+          int i = 1;
+          String coord2 ='''''';
+          while (i < tempCoord2.length) {
+            if (i != tempCoord2.length-1) {
+              coord2 = coord2 + tempCoord2[i] +'''c''';
+            } else {
+              coord2 = coord2 + tempCoord2[i];
+            }
+            i++;
+          }
+          if (tempCoord.length>2) {
+            int x = 2;
+            while (x < tempCoord.length) {
+              coord2 = coord2 +'''m''' +tempCoord[x];
+              x++;
+            }
+          }
+          setState(() {
+            svgMouth = tempCoord[0] + '''m''' + tempCoord3[0] +''','''+ newCoord.toString()+'''c'''+coord2+'''>''';
+            print(svgMouth);
+          });
+        }
+      }
+    } else if (move == 3) { // Details
+
+    }
   }
 
   void _clearEmoji() {
@@ -432,7 +1165,7 @@ class _MyHomePageState extends State<MyHomePage> {
               } else {
                 setState(() {
                   menu = 6;
-                  move = index;
+                  move = index-1;
                 });
               }
             },
@@ -467,9 +1200,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   menu = 5;
                 });
               } else {
+                _moveEmoji(index-1);
                 print(
                     "_____________________________________________________Pressed : " +
-                        index.toString() +" AND ITEM : " + move.toString());
+                        (index-1).toString() +" AND ITEM : " + move.toString());
               }
             },
           );
