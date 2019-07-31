@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _saveEmoji() async {
     print(svgEyes);
-    //TODO svg to canvas recorder to png 
+    //TODO svg to canvas recorder to png
     /*String svgBuild =
         svgHeader + svgBase + svgEyes + svgMouth + svgDetails + svgFooter;
     final DrawableRoot svgRoot = await svg.fromSvgString(svgBuild, svgBuild);
@@ -771,9 +771,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // L'objet est un path
           List<String> tempCoord = tempEyes[0].split("m");
           // tempCoord[0] + m = partie gauche
-
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[0]) - 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -781,7 +789,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -800,7 +808,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 newCoord.toString() +
                 ''',''' +
                 tempCoord3[1] +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgEyes);
@@ -845,6 +853,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[0]) - 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -852,7 +869,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -872,7 +889,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   newCoord.toString() +
                   ''',''' +
                   tempCoord3[1] +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -918,6 +935,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[0]) - 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -925,7 +951,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -944,7 +970,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 newCoord.toString() +
                 ''',''' +
                 tempCoord3[1] +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgMouth);
@@ -982,6 +1008,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[0]) - 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -989,7 +1024,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1009,7 +1044,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   newCoord.toString() +
                   ''',''' +
                   tempCoord3[1] +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1053,6 +1088,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[0]) - 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1060,7 +1104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1079,7 +1123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 newCoord.toString() +
                 ''',''' +
                 tempCoord3[1] +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgDetails);
@@ -1117,6 +1161,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[0]) - 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1124,7 +1178,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1144,7 +1198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   newCoord.toString() +
                   ''',''' +
                   tempCoord3[1] +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1195,6 +1249,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[0]) + 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1202,7 +1266,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1221,7 +1285,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 newCoord.toString() +
                 ''',''' +
                 tempCoord3[1] +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgEyes);
@@ -1259,6 +1323,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[0]) + 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1266,7 +1339,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1286,7 +1359,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   newCoord.toString() +
                   ''',''' +
                   tempCoord3[1] +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1330,6 +1403,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[0]) + 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1337,7 +1420,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1356,7 +1439,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 newCoord.toString() +
                 ''',''' +
                 tempCoord3[1] +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgMouth);
@@ -1394,6 +1477,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[0]) + 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1401,7 +1494,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1421,7 +1514,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   newCoord.toString() +
                   ''',''' +
                   tempCoord3[1] +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1465,6 +1558,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[0]) + 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1472,7 +1575,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1491,7 +1594,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 newCoord.toString() +
                 ''',''' +
                 tempCoord3[1] +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgDetails);
@@ -1529,6 +1632,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[0]) + 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1536,7 +1649,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1556,7 +1669,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   newCoord.toString() +
                   ''',''' +
                   tempCoord3[1] +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1607,6 +1720,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[1]) - 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1614,7 +1737,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1633,7 +1756,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tempCoord3[0] +
                 ''',''' +
                 newCoord.toString() +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
           });
@@ -1670,6 +1793,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[1]) - 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1677,7 +1810,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1697,7 +1830,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tempCoord3[0] +
                   ''',''' +
                   newCoord.toString() +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1741,6 +1874,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[1]) - 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1748,7 +1892,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1767,7 +1911,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tempCoord3[0] +
                 ''',''' +
                 newCoord.toString() +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
           });
@@ -1804,6 +1948,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[1]) - 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1811,7 +1965,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1831,7 +1985,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tempCoord3[0] +
                   ''',''' +
                   newCoord.toString() +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -1875,6 +2029,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[1]) - 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1882,7 +2046,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -1901,7 +2065,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tempCoord3[0] +
                 ''',''' +
                 newCoord.toString() +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
           });
@@ -1938,6 +2102,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[1]) - 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -1945,7 +2119,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -1965,7 +2139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tempCoord3[0] +
                   ''',''' +
                   newCoord.toString() +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -2016,6 +2190,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[1]) + 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -2023,7 +2207,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -2042,7 +2226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tempCoord3[0] +
                 ''',''' +
                 newCoord.toString() +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
           });
@@ -2079,6 +2263,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[1]) + 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -2086,7 +2279,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -2106,7 +2299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tempCoord3[0] +
                   ''',''' +
                   newCoord.toString() +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -2150,6 +2343,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[1]) + 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -2157,7 +2360,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -2176,7 +2379,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tempCoord3[0] +
                 ''',''' +
                 newCoord.toString() +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
           });
@@ -2213,6 +2416,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[1]) + 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -2220,7 +2433,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -2240,7 +2453,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tempCoord3[0] +
                   ''',''' +
                   newCoord.toString() +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
@@ -2284,6 +2497,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
           List<String> tempCoord2 = tempCoord[1].split("c");
           // c + tempCoord2[1] + > = partie droite
+
+          String splitter;
+          if (tempCoord2[0].contains('l')) {
+            tempCoord2.clear();
+            tempCoord2 = tempCoord[1].split("l");
+            splitter = '''l''';
+          } else {
+            splitter = '''c''';
+          }
+
           List<String> tempCoord3 = tempCoord2[0].split(",");
           double newCoord = double.parse(tempCoord3[1]) + 1.5;
           // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -2291,7 +2514,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String coord2 = '''''';
           while (i < tempCoord2.length) {
             if (i != tempCoord2.length - 1) {
-              coord2 = coord2 + tempCoord2[i] + '''c''';
+              coord2 = coord2 + tempCoord2[i] + splitter;
             } else {
               coord2 = coord2 + tempCoord2[i];
             }
@@ -2310,7 +2533,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tempCoord3[0] +
                 ''',''' +
                 newCoord.toString() +
-                '''c''' +
+                splitter +
                 coord2 +
                 '''>''';
             print(svgDetails);
@@ -2348,6 +2571,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
             List<String> tempCoord2 = tempCoord[1].split("c");
             // c + tempCoord2[1] + > = partie droite
+
+            String splitter;
+            if (tempCoord2[0].contains('l')) {
+              tempCoord2.clear();
+              tempCoord2 = tempCoord[1].split("l");
+              splitter = '''l''';
+            } else {
+              splitter = '''c''';
+            }
+
             List<String> tempCoord3 = tempCoord2[0].split(",");
             double newCoord = double.parse(tempCoord3[1]) + 1.5;
             // tempCoord3[0] + , + tempCoord3[1] = partie du milieu
@@ -2355,7 +2588,7 @@ class _MyHomePageState extends State<MyHomePage> {
             String coord2 = '''''';
             while (i < tempCoord2.length) {
               if (i != tempCoord2.length - 1) {
-                coord2 = coord2 + tempCoord2[i] + '''c''';
+                coord2 = coord2 + tempCoord2[i] + splitter;
               } else {
                 coord2 = coord2 + tempCoord2[i];
               }
@@ -2375,7 +2608,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tempCoord3[0] +
                   ''',''' +
                   newCoord.toString() +
-                  '''c''' +
+                  splitter +
                   coord2 +
                   '''>''';
             });
