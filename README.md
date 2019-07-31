@@ -9,7 +9,6 @@ A flutter application to create and save your own Emoji using croped [Emoji from
 
 - Choose base, eyes, mouth and details for your Emoji
 - Save your Emoji as a .png file to your phone
-- Track the scratch progress and threshold
 - Move parts from your Emoji to make the perfect one
 - Get random Emoji
 
