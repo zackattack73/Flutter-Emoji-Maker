@@ -4,6 +4,13 @@ import 'package:emoji_maker/emoji.dart';
 import 'package:emoji_maker/emojiDB.dart';
 import 'dart:math';
 import 'dart:ui';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -194,15 +201,51 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _saveEmoji() async {
-    print(svgEyes);
-    //TODO svg to canvas recorder to png
-    /*String svgBuild =
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    if (await PermissionHandler().checkPermissionStatus(PermissionGroup.storage)==PermissionStatus.granted) {
+    String svgBuild =
         svgHeader + svgBase + svgEyes + svgMouth + svgDetails + svgFooter;
     final DrawableRoot svgRoot = await svg.fromSvgString(svgBuild, svgBuild);
-    final Picture picture = svgRoot.to;
-    var saved =  picture.toImage(50, 50);*/
-
+    var pict = svgRoot.toPicture(size: Size(250, 250));
+    var img = await pict.toImage(250, 250);
+    ByteData pngBytes = await img.toByteData(format: ImageByteFormat.png);
+    var dir2 = await getExternalStorageDirectory();
+    var fileDir =
+    await new Directory('${dir2.path}/EmojiMaker').create(recursive: true);
+    String dir = (await getExternalStorageDirectory()).absolute.path+"/EmojiMaker/";
+    String file = "$dir";
+    print("___________________________________________ FILE " + file);
+    String date = new DateFormat("dd-MM-yyyy kk-mm-ss").format(DateTime.now());
+    String filename = "Emoji "+date+".png";
+    File f = new File(file+filename);
+    final buffer = pngBytes.buffer;
+    f.writeAsBytes(buffer.asUint8List(pngBytes.offsetInBytes, pngBytes.lengthInBytes));
+    Fluttertoast.showToast(
+        msg: "Emoji saved at "+file+filename,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.blueAccent,
+        textColor: Colors.white,
+        fontSize: 16.0
+    ); } else {
+      Fluttertoast.showToast(
+          msg: "Allow storage permission to save Emoji",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
   }
+    /*var image =
+    picture.toImage(lastSize.width.round(), lastSize.height.round());
+    ByteData data = await image.toByteData(format: ui.ImageByteFormat.png);
+    return data.buffer.asUint8List();*/
+
+
 
   void _clearEmoji() {
     setState(() {
