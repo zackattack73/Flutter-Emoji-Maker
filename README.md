@@ -26,7 +26,7 @@ A flutter application to create and save your own Emoji using croped [Emoji from
 - [ ] Show selected Emoji part in list
 - [ ] Allow multiple details
 - [ ] Fix screen when screen in landscape mode
-- [X] Add 
+- [X] Add license
 - [ ] Add logo for apk
 - [ ] Release apk
 
