@@ -5,6 +5,14 @@ A flutter application to create and save your own Emoji using croped [Emoji from
   <img src="https://i.imgur.com/eyDDBeN.png" width="49%" />
 </p>
 
+## Features
+
+- Choose base, eyes, mouth and details for your Emoji
+- Save your Emoji as a .png file to your phone
+- Track the scratch progress and threshold
+- Move parts from your Emoji to make the perfect one
+- Get random Emoji
+
 ## TODO
 
 - [X] Add name for Emoji
@@ -22,14 +30,6 @@ A flutter application to create and save your own Emoji using croped [Emoji from
 - [X] Add 
 - [ ] Add logo for apk
 - [ ] Release apk
-
-## Features
-
-- Choose base, eyes, mouth and details for your Emoji
-- Save your Emoji as a .png file to your phone
-- Track the scratch progress and threshold
-- Move parts from your Emoji to make the perfect one
-- Get random Emoji
 
 ## Flutter
 
